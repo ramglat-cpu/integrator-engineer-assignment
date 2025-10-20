@@ -1,0 +1,26 @@
+version: "3.9"
+
+services:
+  pong:
+    build: ./pong
+    container_name: pong
+    env_file: .env
+    environment:
+      - APP_ENV=${APP_ENV}
+      - PONG_PORT=${PONG_PORT}
+    ports:
+      - "${PONG_PORT:-8001}:${PONG_PORT:-8001}"
+
+  ping:
+    build: ./ping
+    container_name: ping
+    env_file: .env
+    environment:
+      - APP_ENV=${APP_ENV}
+      - PING_PORT=${PING_PORT}
+      - PONG_PORT=${PONG_PORT}
+    ports:
+      - "${PING_PORT:-8000}:${PING_PORT:-8000}"
+    depends_on:
+      - pong
+
